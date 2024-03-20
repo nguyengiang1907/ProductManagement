@@ -12,7 +12,7 @@
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
-<form th:action="@{/products/create}" th:object="${product}" method="post">
+<form th:action="@{/products/create}" th:object="${productForm}" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td>name:</td>
@@ -28,12 +28,13 @@
         </tr>
         <tr>
             <td>describe:</td>
-            <td><input type="text" th:field="*{describe}"/></td>
+            <td><input type="text" th:field="*{describes}"/></td>
         </tr>
         <tr>
             <td>image:</td>
-            <td><input type="text" th:field="*{image}"/></td>
+            <td><input type="file" th:field="*{image}"/></td>
         </tr>
+
         <tr>
             <td></td>
             <td><input type="submit" value="Create Product"></td>
