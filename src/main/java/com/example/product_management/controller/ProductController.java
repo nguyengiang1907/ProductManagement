@@ -3,6 +3,9 @@ package com.example.product_management.controller;
 import com.example.product_management.model.Product;
 import com.example.product_management.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,12 +19,13 @@ public class ProductController {
     private IProductService iProductService;
 
     @GetMapping()
-    public ModelAndView listProduct(){
-        ModelAndView modelAndView = new ModelAndView("/product/list");
-        Iterable<Product> products = iProductService.findAll();
+    public ModelAndView listProduct(@PageableDefault(10) Pageable pageable){
+        ModelAndView modelAndView = new ModelAndView("/product/index");
+        Page<Product> products = iProductService.findAll(pageable);
         modelAndView.addObject("products",products);
         return modelAndView;
     }
+
 
     @GetMapping("/create")
     public ModelAndView showCreateForm(){
