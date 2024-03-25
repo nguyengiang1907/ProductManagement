@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,4 +39,11 @@ public class ProductService implements IProductService {
     public Page<Product> findAll(Pageable pageable) {
         return iProductRepository.findAll(pageable);
     }
+
+    @Override
+    public Iterable<Product> searchAll(double price, String name, int quantity, String describes) {
+        return iProductRepository.searchAll(price,"%"+name+"%",quantity,"%"+describes+"%");
+    }
+
 }
+

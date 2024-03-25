@@ -65,6 +65,18 @@ public class Product {
     public Product() {
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", describes='" + describes + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
+
     public Product(long id, String name, double price, int quantity, String describe, String image) {
         this.id = id;
         this.name = name;
