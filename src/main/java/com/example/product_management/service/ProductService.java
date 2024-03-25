@@ -41,8 +41,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Iterable<Product> searchAll(double price, String name, int quantity, String describes) {
-        return iProductRepository.searchAll(price,"%"+name+"%",quantity,"%"+describes+"%");
+    public Iterable<Product> searchAll(double price, String name) {
+        return iProductRepository.searchAll(price,"%"+name+"%");
     }
 
 }

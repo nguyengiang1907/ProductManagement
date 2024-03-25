@@ -76,19 +76,14 @@ public class ProductController {
         return modelAndView;
     }
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("price") double price, @RequestParam("name") String name,@RequestParam("quantity") int quantity, @RequestParam("describe") String describe){
-        if (price == 0){
-            price = Double.parseDouble(null);
-        }if (quantity == 0){
-            quantity = Integer.parseInt(null);
-        }if (name.isEmpty()){
+    public ModelAndView search(@RequestParam("price") double price, @RequestParam("name") String name){
+        if (name.isEmpty()){
             name = null;
-        }if (describe.isEmpty()){
-            describe = null;
         }
         ModelAndView modelAndView = new ModelAndView("/product/search");
-        Iterable<Product> products = iProductService.searchAll(price,name,quantity,describe);
+        Iterable<Product> products = iProductService.searchAll(price,name);
         modelAndView.addObject("products",products);
         return modelAndView;
     }
 }
+
