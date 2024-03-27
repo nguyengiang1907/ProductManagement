@@ -3,6 +3,8 @@ package com.example.product_management.controller;
 import com.example.product_management.model.Product;
 import com.example.product_management.model.ProductForm;
 import com.example.product_management.service.IProductService;
+import com.example.product_management.specification.PaginateRequest;
+import com.example.product_management.specification.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -31,14 +33,24 @@ public class ProductController {
         ModelAndView modelAndView = new ModelAndView("/product/index");
         Page<Product> products = iProductService.findAll(pageable);
         modelAndView.addObject("products",products);
+        modelAndView.addObject("productForm",new ProductForm());
         return modelAndView;
     }
-
     @GetMapping("/create")
-    public ModelAndView showCreateForm(){
+    public ModelAndView showFromCreate(){
         ModelAndView modelAndView = new ModelAndView("/product/create");
         modelAndView.addObject("productForm",new ProductForm());
         return modelAndView;
+    }
+    @GetMapping("/update/{id}")
+    public ModelAndView showFromUpdate(@PathVariable Long id){
+        Optional<Product> product = iProductService.findById(id);
+        if (product.isPresent()){
+            ModelAndView modelAndView = new ModelAndView("/product/update");
+            modelAndView.addObject("productForm",product.get());
+            return modelAndView;
+        }
+            return new ModelAndView("error_404");
     }
     @PostMapping("/create")
     public ModelAndView save(@ModelAttribute ProductForm productForm) throws IOException {
@@ -59,21 +71,27 @@ public class ProductController {
         return modelAndView;
     }
     @GetMapping("/delete/{id}")
-    public ModelAndView showDeleteForm(@PathVariable Long id) {
-        Optional<Product> product = iProductService.findById(id);
-        if (product.isPresent()) {
-            ModelAndView modelAndView = new ModelAndView("/product/delete");
-            modelAndView.addObject("product", product.get());
-            return modelAndView;
-        } else {
-            return new ModelAndView("/error_404");
-        }
-    }
-    @PostMapping("/delete")
-    public ModelAndView delete(@ModelAttribute Product customer){
+    public ModelAndView delete(@ModelAttribute Product product){
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
-        iProductService.remove(customer.getId());
+        iProductService.remove(product.getId());
         return modelAndView;
     }
-
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("name") String name,
+                               @RequestParam(value = "price", required = false, defaultValue = "0") double price,
+                               @RequestParam(value = "quantity", required = false, defaultValue = "0") int quantity,
+                               @RequestParam("describes") String describes,
+                               @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                               @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        if (name.isEmpty()) {
+            name = null;
+        }
+        if (describes.isEmpty()) {
+            describes = null;
+        }
+        ModelAndView modelAndView = new ModelAndView("/product/index");
+        Page<Product> pages = iProductService.search(new PaginateRequest(page, size), new ProductRequest(name, price, quantity, describes));
+        modelAndView.addObject("products", pages);
+        return modelAndView;
+    }
 }
