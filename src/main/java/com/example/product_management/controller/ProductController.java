@@ -3,6 +3,8 @@ package com.example.product_management.controller;
 import com.example.product_management.model.Product;
 import com.example.product_management.model.ProductForm;
 import com.example.product_management.service.IProductService;
+import com.example.product_management.specification.PaginateRequest;
+import com.example.product_management.specification.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -74,5 +76,22 @@ public class ProductController {
         iProductService.remove(product.getId());
         return modelAndView;
     }
-
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("name") String name,
+                               @RequestParam(value = "price", required = false, defaultValue = "0") double price,
+                               @RequestParam(value = "quantity", required = false, defaultValue = "0") int quantity,
+                               @RequestParam("describes") String describes,
+                               @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                               @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
+        if (name.isEmpty()) {
+            name = null;
+        }
+        if (describes.isEmpty()) {
+            describes = null;
+        }
+        ModelAndView modelAndView = new ModelAndView("/product/index");
+        Page<Product> pages = iProductService.search(new PaginateRequest(page, size), new ProductRequest(name, price, quantity, describes));
+        modelAndView.addObject("products", pages);
+        return modelAndView;
+    }
 }

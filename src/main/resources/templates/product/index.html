@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head th:insert="layout/layout :: head">
+<head th:insert="layout/layout :: config">
     <title>Product Management</title>
 </head>
 <body>
@@ -23,27 +23,27 @@
                         <form  th:action="@{/products/search}" th:object="${products}" >
                             <div class="mr-auto w-full flex" >
                                 <label class="block text-lg ml-6 mr-6">
-                                    <input type="text"
+                                    <input type="text" name="name"
                                            class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                            placeholder="Name Product"/>
                                 </label>
                                 <label class="block text-lg mr-6">
-                                    <input type="text"
+                                    <input type="number" name="price"
                                            class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                           placeholder="1.0"/>
+                                           placeholder="0"/>
                                 </label>
                                 <label class="block text-lg mr-6">
-                                <input type="text"
+                                <input type="number" name="quantity"
                                            class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                           placeholder="1.0"/>
+                                           placeholder="0"/>
                                 </label>
                                 <label class="block text-lg mr-6">
-                                <input type="text"
+                                <input type="text" name="describes"
                                            class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                            placeholder="Describes..."/>
                                 </label>
                                 <button class="mt- px-4 py-2 text-lg font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                                    Save
+                                    Search
                                 </button>
                             </div>
                         </form>
