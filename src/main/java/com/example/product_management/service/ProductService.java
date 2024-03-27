@@ -1,9 +1,13 @@
 package com.example.product_management.service;
 
+import com.example.product_management.PaginateRequest;
+import com.example.product_management.ProductRequest;
+import com.example.product_management.ProductSpec;
 import com.example.product_management.model.Product;
 import com.example.product_management.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +45,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Iterable<Product> searchAll(double price, String name) {
-        return iProductRepository.searchAll(price,"%"+name+"%");
+    public Page<Product> search(PaginateRequest paginateRequest, ProductRequest productRequest) {
+        return iProductRepository.findAll(new ProductSpec(productRequest), PageRequest.of(paginateRequest.getPage(),paginateRequest.getSize()));
     }
-
 }
 

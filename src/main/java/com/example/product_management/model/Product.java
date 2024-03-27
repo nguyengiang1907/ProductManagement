@@ -1,6 +1,8 @@
 package com.example.product_management.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.NotFound;
+import org.springframework.validation.annotation.Validated;
 
 @Entity
 @Table(name ="products")

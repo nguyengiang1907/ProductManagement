@@ -5,12 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-<div th:each="product : ${products}" >
-        <label th:text="${product.getPrice()}"></label>
-        <label th:text="${product.getName()}"></label>
-        <label th:text="${product.getPrice()}"></label>
-        <label th:text="${product.getQuantity()}"></label>
-        <label th:text="${product.getDescribe()}"></label>
-</div>
+<table th:each="product : ${products}">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Describes</th>
+    </tr>
+    <tr>
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td th:text="${product.getQuantity()}"></td>
+        <td th:text="${product.getDescribe()}"></td>
+    </tr>
+</table>
 </body>
 </html>

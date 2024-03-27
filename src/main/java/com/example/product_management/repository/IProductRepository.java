@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 
-public interface IProductRepository extends JpaRepository<Product,Long>  {
+public interface IProductRepository extends JpaRepository<Product,Long> ,JpaSpecificationExecutor<Product> {
     Page<Product> findAll(Pageable pageable);
-    @Query("SELECT p FROM Product p WHERE (?1 IS NULL OR p.price = ?1 ) AND (?2 IS NULL OR p.name = ?2) ")
-    List<Product> searchAll(double price, String name);
+
 }

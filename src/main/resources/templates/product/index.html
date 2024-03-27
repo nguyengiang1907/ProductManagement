@@ -194,8 +194,10 @@
                     </div>
                 </div>
                 <form th:action="@{/products/search}"  method="get">
-                    <input type="text" name="price">
                     <input type="text" name="name">
+                    <input type="number" name="price">
+                    <input type="number" name="quantity">
+                    <input type="text" name="describes">
                     <input type="submit">Search</input>
                 </form>
                 <!-- New Table -->
