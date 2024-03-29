@@ -66,6 +66,8 @@ public class ProductController {
     @PostMapping("/update")
     public ModelAndView update(@ModelAttribute("product") Product product){
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
+        Optional<Product> newProduct = iProductService.findById(product.getId());
+        product.setImage(newProduct.get().getImage());
         iProductService.save(product);
         modelAndView.addObject("message" ,"Update successful ");
         return modelAndView;
@@ -77,21 +79,19 @@ public class ProductController {
         return modelAndView;
     }
     @GetMapping("/search")
-    public ModelAndView search(@RequestParam("name") String name,
-                               @RequestParam(value = "price", required = false, defaultValue = "0") double price,
-                               @RequestParam(value = "quantity", required = false, defaultValue = "0") int quantity,
-                               @RequestParam("describes") String describes,
+    public ModelAndView search(@RequestParam(value = "name" , required = false) String name,
+                               @RequestParam(value = "price", defaultValue = "0") double price,
+                               @RequestParam(value = "quantity", defaultValue = "0") int quantity,
+                               @RequestParam(value = "describes", required = false) String describes,
                                @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        if (name.isEmpty()) {
-            name = null;
-        }
-        if (describes.isEmpty()) {
-            describes = null;
-        }
+
         ModelAndView modelAndView = new ModelAndView("/product/index");
         Page<Product> pages = iProductService.search(new PaginateRequest(page, size), new ProductRequest(name, price, quantity, describes));
         modelAndView.addObject("products", pages);
+        if (pages.isEmpty()){
+            modelAndView.addObject("message","khong hop le");
+        }
         return modelAndView;
     }
 }

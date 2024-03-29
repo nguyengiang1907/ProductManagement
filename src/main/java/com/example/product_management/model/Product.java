@@ -73,4 +73,12 @@ public class Product {
         this.describes = describe;
         this.image = image;
     }
+
+    public Product(long id, String name, double price, int quantity, String describes) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.describes = describes;
+    }
 }
