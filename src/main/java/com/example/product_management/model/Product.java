@@ -14,6 +14,8 @@ public class Product {
     private String describes;
     private String image;
 
+
+
     public long getId() {
         return id;
     }

@@ -75,7 +75,9 @@ public class ProductController {
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@ModelAttribute Product product){
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
-        iProductService.remove(product.getId());
+        if (iProductService.findById(product.getId()).isPresent()){
+            iProductService.remove(product.getId());
+        }
         return modelAndView;
     }
     @GetMapping("/search")
