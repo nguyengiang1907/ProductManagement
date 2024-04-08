@@ -1,7 +1,7 @@
 package com.example.product_management.model;
 
+import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
-
 public class ProductForm {
     private long id;
     private String name;
@@ -9,6 +9,15 @@ public class ProductForm {
     private int quantity;
     private String describes;
     private MultipartFile image;
+    private long idCategory;
+
+    public long getIdCategory() {
+        return idCategory;
+    }
+
+    public void setIdCategory(long idCategory) {
+        this.idCategory = idCategory;
+    }
 
     public long getId() {
         return id;
@@ -58,15 +67,16 @@ public class ProductForm {
         this.image = image;
     }
 
-    public ProductForm(long id, String name, double price, int quantity, String describes, MultipartFile image) {
+    public ProductForm() {
+    }
+
+    public ProductForm(long id, String name, double price, int quantity, String describes, MultipartFile image, long idCategory) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.describes = describes;
         this.image = image;
-    }
-
-    public ProductForm() {
+        this.idCategory = idCategory;
     }
 }

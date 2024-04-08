@@ -1,7 +1,9 @@
 package com.example.product_management.controller;
 
+import com.example.product_management.model.Category;
 import com.example.product_management.model.Product;
 import com.example.product_management.model.ProductForm;
+import com.example.product_management.service.ICategoryService;
 import com.example.product_management.service.IProductService;
 import com.example.product_management.specification.PaginateRequest;
 import com.example.product_management.specification.ProductRequest;
@@ -25,9 +27,15 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     private IProductService iProductService;
+    @Autowired
+    private ICategoryService iCategoryService;
     @Value("${folder_upload}")
     private String fileUpload;
 
+    @ModelAttribute("category")
+    public Iterable<Category> findALl(){
+        return iCategoryService.findAll();
+    }
     @GetMapping()
     public ModelAndView listProduct(@PageableDefault(10) Pageable pageable){
         ModelAndView modelAndView = new ModelAndView("/product/index");
@@ -57,8 +65,9 @@ public class ProductController {
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
         MultipartFile multipartFile = productForm.getImage();
         String nameFile = multipartFile.getOriginalFilename();
+        Optional<Category> category = iCategoryService.findById(productForm.getIdCategory());
         FileCopyUtils.copy(productForm.getImage().getBytes(),new File(fileUpload+nameFile));
-        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescribes(), nameFile);
+        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescribes(), nameFile,category.get());
         iProductService.save(product);
         modelAndView.addObject("message","New customer created successfully");
         return modelAndView;
@@ -79,8 +88,7 @@ public class ProductController {
             iProductService.remove(product.getId());
         }
         return modelAndView;
-    }
-    @GetMapping("/search")
+    }@GetMapping("/search")
     public ModelAndView search(@RequestParam(value = "name" , required = false) String name,
                                @RequestParam(value = "price", defaultValue = "0") double price,
                                @RequestParam(value = "quantity", defaultValue = "0") int quantity,

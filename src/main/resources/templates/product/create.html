@@ -55,39 +55,52 @@
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <form th:action="@{/products/create}" th:object="${productForm}" method="post"
                       enctype="multipart/form-data">
-                    <label class="block text-lg">
-                        <span class="text-gray-700 dark:text-gray-400">Name</span>
-                        <input type="text" th:field="*{name}" required
-                               class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                               placeholder="Name Product"/>
-                    </label>
-                    <label class="block text-lg">
-                        <span class="text-gray-700 dark:text-gray-400">Price</span>
-                        <input type="number" th:field="*{price}" required
-                               class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                               placeholder="1.0"/>
-                    </label>
-                    <label class="block text-lg">
-                        <span class="text-gray-700 dark:text-gray-400">Quantity</span>
-                        <input type="number" th:field="*{quantity}" required
-                               class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                               placeholder="1.0"/>
-                    </label>
-                    <label class="block text-lg">
-                        <span class="text-gray-700 dark:text-gray-400">Describes</span>
-                        <input type="text" th:field="*{describes}" required
-                               class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                               placeholder="Describes..."/>
-                    </label>
-                    <label class="block text-lg">
-                        <span class="text-gray-700 dark:text-gray-400">Image</span>
-                        <input type="file" th:field="*{image}" required
-                               class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                        />
-                    </label>
-                    <button class="mt- px-4 py-2 text-lg font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                        Save
-                    </button>
+                        <label class="block text-lg">
+                        <span class="text-gray-700 dark:text-gray-400">Category</span>
+                        <select
+                                class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                                th:field="*{idCategory}">
+                            <option th:each=" c : ${category}" th:text="${c.name}" th:value="${c.id}"></option>
+                        </select>
+                        </label>
+                        <label class="block text-lg">
+                            <span class="text-gray-700 dark:text-gray-400">Name</span>
+                            <input type="text" th:field="*{name}" required
+                                   class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                   placeholder="Name Product"/>
+                        </label>
+                        <label class="block text-lg">
+                            <span class="text-gray-700 dark:text-gray-400">Price</span>
+                            <input type="number" th:field="*{price}" required minlength="1"
+                                   class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                   placeholder="1.0"/>
+                        </label>
+                        <label class="block text-lg">
+                            <span class="text-gray-700 dark:text-gray-400">Quantity</span>
+                            <input type="number" th:field="*{quantity}" required min="1"
+                                   class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                   placeholder="1.0"/>
+                        </label>
+                        <label class="block text-lg">
+                            <span class="text-gray-700 dark:text-gray-400">Describes</span>
+                            <input type="text" th:field="*{describes}" required
+                                   class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                   placeholder="Describes..."/>
+                        </label>
+                        <label class="block text-lg">
+                            <span class="text-gray-700 dark:text-gray-400">Image</span>
+                            <input type="file" th:field="*{image}" required
+                                   class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                            />
+                        </label>
+                        <label class="block mt-4 text-sm">
+                <span class="text-gray-700 dark:text-gray-400">
+                  Requested Limit
+                </span>
+                        </label>
+                        <button class="mt- px-4 py-2 text-lg font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                            Save
+                        </button>
                 </form>
             </div>
         </div>

@@ -55,7 +55,15 @@
             <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 ">
                 <form th:action="@{/products/update}" th:object="${productForm}" method="post"
                       enctype="multipart/form-data">
-                    <input type="hidden" th:field="*{id}">
+                    <input th:field="*{id}" type="hidden">
+                    <label class="block text-lg">
+                        <span class="text-gray-700 dark:text-gray-400">Category</span>
+                        <select
+                                class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                                th:field="*{idCategory}">
+                            <option th:each=" c : ${category}" th:text="${c.name}" th:value="${c.id}"></option>
+                        </select>
+                    </label>
                     <label class="block text-lg">
                         <span class="text-gray-700 dark:text-gray-400">Name</span>
                         <input type="text" th:field="*{name}" required

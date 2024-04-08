@@ -46,4 +46,9 @@ public class ProductService implements IProductService {
     public Page<Product> search(PaginateRequest paginateRequest, ProductRequest productRequest) {
         return iProductRepository.findAll(new ProductSpec(productRequest), PageRequest.of(paginateRequest.getPage(),paginateRequest.getSize()));
     }
+
+    @Override
+    public Product findProductById(long id) {
+        return iProductRepository.findProductById(id);
+    }
 }
