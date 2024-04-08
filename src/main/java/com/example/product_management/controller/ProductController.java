@@ -85,12 +85,25 @@ public class ProductController {
                                @RequestParam(value = "price", required = false, defaultValue = "0") double price,
                                @RequestParam(value = "quantity", required = false, defaultValue = "0") int quantity,
                                @RequestParam(value = "describes", defaultValue = "null") String describes,
+        if (iProductService.findById(product.getId()).isPresent()){
+            iProductService.remove(product.getId());
+        }
+        return modelAndView;
+    }
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam(value = "name" , required = false) String name,
+                               @RequestParam(value = "price", defaultValue = "0") double price,
+                               @RequestParam(value = "quantity", defaultValue = "0") int quantity,
+                               @RequestParam(value = "describes", required = false) String describes,
                                @RequestParam(name = "page", required = false, defaultValue = "0") int page,
                                @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
 
         ModelAndView modelAndView = new ModelAndView("/product/index");
         Page<Product> pages = iProductService.search(new PaginateRequest(page, size), new ProductRequest(name, price, quantity, describes));
         modelAndView.addObject("products", pages);
+        if (pages.isEmpty()){
+            modelAndView.addObject("message","khong hop le");
+        }
         return modelAndView;
     }
 }

@@ -59,25 +59,25 @@
                     <input type="hidden" th:field="*{id}">
                     <label class="block text-lg">
                         <span class="text-gray-700 dark:text-gray-400">Name</span>
-                        <input type="text" th:field="*{name}"
+                        <input type="text" th:field="*{name}" required
                                class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                placeholder="Name Product"/>
                     </label>
                     <label class="block text-lg">
                         <span class="text-gray-700 dark:text-gray-400">Price</span>
-                        <input type="text" th:field="*{price}"
+                        <input type="number" th:field="*{price}" required
                                class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                placeholder="1.0"/>
                     </label>
                     <label class="block text-lg">
                         <span class="text-gray-700 dark:text-gray-400">Quantity</span>
-                        <input type="text" th:field="*{quantity}"
+                        <input type="number" th:field="*{quantity}" required
                                class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                placeholder="1.0"/>
                     </label>
                     <label class="block text-lg mb-2">
                         <span class="text-gray-700 dark:text-gray-400">Describes</span>
-                        <input type="text" th:field="*{describe}"
+                        <input type="text" th:field="*{describe}" required
                                class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                                placeholder="Describes..."/>
                     </label>

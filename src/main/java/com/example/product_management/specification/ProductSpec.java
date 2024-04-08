@@ -7,6 +7,9 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ProductSpec implements Specification<Product> {
     private ProductRequest productRequest;
@@ -20,17 +23,21 @@ public class ProductSpec implements Specification<Product> {
                                  CriteriaQuery<?> query,
                                  CriteriaBuilder criteriaBuilder) {
 
-        if (productRequest.getName() != null) {
-            query.where(criteriaBuilder.like(root.get("name"), "%" + productRequest.getName() + "%"));
+        List<Predicate> predicates = new ArrayList<>();
+        if (!productRequest.getName().isEmpty()) {
+            predicates.add(criteriaBuilder.like(root.get("name"), "%" + productRequest.getName() + "%"));
         }
         if (productRequest.getPrice() != 0) {
-            query.where(criteriaBuilder.lessThan(root.get("price"), productRequest.getPrice()));
+            predicates.add(criteriaBuilder.lessThan(root.get("price"), productRequest.getPrice()));
         }
         if (productRequest.getQuantity() != 0) {
-            query.where(criteriaBuilder.lessThan(root.get("quantity"), productRequest.getQuantity()));
+            predicates.add(criteriaBuilder.lessThan(root.get("quantity"), productRequest.getQuantity()));
         }
-        if (productRequest.getDescribes() != null) {
-            query.where(criteriaBuilder.like(root.get("describes"), "%" + productRequest.getDescribes() + "%"));
+        if (!productRequest.getDescribes().isEmpty()) {
+            predicates.add(criteriaBuilder.like(root.get("describes"), "%" + productRequest.getDescribes() + "%"));
+        }
+        if(!predicates.isEmpty()){
+            query.where(predicates.toArray(new Predicate[0]));
         }
         return query.getRestriction();
     }
