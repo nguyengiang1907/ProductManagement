@@ -73,4 +73,8 @@ public class Product {
         this.describes = describe;
         this.image = image;
     }
+
+    public Product(String image) {
+        this.image = image;
+    }
 }
