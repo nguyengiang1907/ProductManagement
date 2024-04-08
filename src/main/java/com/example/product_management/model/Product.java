@@ -76,6 +76,9 @@ public class Product {
         this.image = image;
     }
 
+    public Product(String image) {
+        this.image = image;
+      
     public Product(long id, String name, double price, int quantity, String describes) {
         this.id = id;
         this.name = name;

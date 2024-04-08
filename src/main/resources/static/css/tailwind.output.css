@@ -1030,6 +1030,9 @@ img, video {
 .h-8 {
     height: 2rem
 }
+h-10 {
+    height: 2.5rem;
+}
 
 .h-12 {
     height: 3rem
@@ -1814,11 +1817,16 @@ img, video {
 .w-8 {
     width: 2rem
 }
-
+.w-10{
+    width: 2.5rem;
+}
 .w-12 {
     width: 3rem
 }
-
+.w-26{
+    width: 6rem;
+    height: 3rem;
+}
 .w-56 {
     width: 14rem
 }

@@ -60,36 +60,6 @@
 .form__field{
     &:required,&:invalid { box-shadow:none; }
 }
-.create{
-    width: 95%;
-    margin: 70px auto;
-}
-.update{
-    display: none;
-    width: 800px;
-    height: 500px;
-    position: fixed;
-    background-color: #e9ecef;
-    overflow-x: hidden;
-    border-radius: 7px;
-    top: 100px;
-    left: 600px;
-}
-.update .closebtn {
-    position: absolute;
-    top: -16px;
-    right: 8px;
-    font-size: 40px;
-}
-.create .closebtn {
-    position: absolute;
-    top: -16px;
-    right: 8px;
-    font-size: 40px;
-}
-.formCreate{
-    margin: 45px;
-}
 .fontSize{
     font-size: 16px;
 }
