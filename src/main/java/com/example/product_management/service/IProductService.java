@@ -10,5 +10,6 @@ import org.springframework.data.domain.Pageable;
 public interface IProductService extends IGenerateService<Product>{
     Page<Product> findAll(Pageable pageable);
     Page<Product> search(PaginateRequest paginateRequest, ProductRequest productRequest);
+    Product findProductById(long id);
 
 }
