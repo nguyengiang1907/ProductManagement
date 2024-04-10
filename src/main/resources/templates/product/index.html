@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
 <head th:insert="layout/layout :: config">
     <title>Product Management</title>
 </head>
+<style>
+    .delete {
+        display: none;
+        position: fixed;
+        border-radius: 7px;
+        background: #f3f3f3;
+        color: black;
+        width: 400px;
+        left: 800px;
+        z-index: 1000;
+    }
+
+    .delete .closebtn {
+        position: absolute;
+        top: -6px;
+        right: 8px;
+        font-size: 20px;
+    }
+
+    .boxDelete {
+        margin: 30px;
+    }
+</style>
 <body>
+<div th:insert="layout/script :: script"></div>
 <div class="flex h-screen bg-gray-50 dark:bg-gray-900"
      :class="{ 'overflow-hidden': isSideMenuOpen }">
-    <aside th:insert="layout/layout :: sidebarLeft"></aside>
+    <aside th:insert="layout/sidebarLeft :: sidebarLeft"></aside>
     <div class="flex flex-col flex-1 w-full">
-        <header th:insert="layout/layout :: header">
+        <header th:insert="layout/header :: header">
         </header>
         <main class="h-full overflow-y-auto">
             <div class="container px-6 mx-auto grid">
@@ -30,12 +55,12 @@
                                 <label class="block text-lg mr-6">
                                     <input type="number" name="price"
                                            class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                           placeholder="0"/>
+                                           placeholder="Vd: 100.000"/>
                                 </label>
                                 <label class="block text-lg mr-6">
                                 <input type="number" name="quantity"
                                            class="block w-full mt-1 text-lg dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                           placeholder="0"/>
+                                       placeholder="Vd: 1"/>
                                 </label>
                                 <label class="block text-lg mr-6">
                                 <input type="text" name="describes"
@@ -55,11 +80,11 @@
                         <table class="w-full whitespace-no-wrap">
                             <thead>
                             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-4 py-3">Name</th>
-                                <th class="px-4 py-3">Price</th>
-                                <th class="px-4 py-3">Quantity</th>
-                                <th class="px-4 py-3">Describe</th>
-                                <th class="px-4 py-3">Action</th>
+                                <th class="font-semibold text-sm px-4 py-3">Name</th>
+                                <th class="font-semibold text-sm px-4 py-3">Price</th>
+                                <th class="font-semibold text-sm px-4 py-3">Quantity</th>
+                                <th class="font-semibold text-sm px-4 py-3">Describe</th>
+                                <th class="font-semibold text-sm px-4 py-3">Action</th>
                             </tr>
                             </thead>
                             <tbody th:each="product : ${products}"
@@ -68,7 +93,7 @@
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
                                         <!-- Avatar with inset shadow -->
-                                        <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                        <div class="relative hidden w-12 h-12 mr-3 rounded-full md:block">
                                             <img
                                                     class="object-cover w-full h-full rounded-full"
                                                     th:src="@{'/public/' + ${product.image}}"
@@ -80,30 +105,47 @@
                                                     aria-hidden="true"
                                             ></div>
                                         </div>
-                                        <div>
-                                            <p class="font-semibold" th:text="${product.name}"></p>
-                                        </div>
+                                        <p th:text="${product.name}"></p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <p th:text="${product.price}"></p>
                                 </td>
-                                <td class="px-4 py-3 text-xs">
+                                <td class="px-4 py-3 text-sm">
                                     <p th:text="${product.quantity}"></p>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <p th:text="${product.describe}"></p>
                                 </td>
                                 <td class="px-4 py-3 text-sm">
-                                    <a th:href="@{/products/update/__${product.id}__ }"><i style="color: black"
-                                                                                           class="fa-solid fa-pen"></i></a>
-                                    <a th:href="@{/products/delete/__${product.id}__ }"><i style="color: black"
-                                                                                           class="fa-solid fa-trash"></i></a>
+                                    <a class="mr-2" th:href="@{/products/update/__${product.id}__ }">
+                                        <i style="color: black" class="fa-solid fa-pen"></i>
+                                    </a>
+                                    <a @click="openModal" th:data-product-id="${product.id}"
+                                       onclick="openFormDelete(this.getAttribute('data-product-id'))">
+                                        <i style="color: black" class="fa-solid fa-trash"></i>
+                                    </a>
                                 </td>
                                 <td>
                                    <label th:text="${message}"></label>
                                 </td>
                             </tr>
+
+
+                            <div id="formDelete" class="delete">
+                                <span class="closebtn" onclick="closeFormDelete()">&times;</span>
+                                <div class="boxDelete">
+                                    <h1 class="mb-2">Confirm</h1>
+                                    <span class="mt-2">Do you want to delete product?</span></br>
+                                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple bg-white mr-2 w-26"
+                                            type="button" onclick="closeFormDelete()">Close
+                                    </button>
+                                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple bg-purple-600 w-26 "
+                                            type="button">
+                                        <a id="deleteButton" href="#">Delete</a>
+                                    </button>
+                                </div>
+                            </div>
                             </tbody>
                         </table>
                     </div>
@@ -176,7 +218,37 @@
                 </div>
             </div>
         </main>
-    </div>
+    </header>
+</div>
+<script th:inline="javascript">
+    function openFormDelete(id) {
+        var deleteLink = `/products/delete/${id}`;
+        document.getElementById("formDelete").style.display = "block"
+        document.getElementById("overlay").style.display = "block"
+        var deleteButton = document.getElementById("deleteButton");
+        if (deleteButton) {
+            deleteButton.href = deleteLink;
+        }
+    }
+
+    function closeFormDelete() {
+        document.getElementById("formDelete").style.display = "none"
+    }
+
+    var msg = [[${msg}]];
+    if (msg != null) {
+        var status = [[${ status }]];
+        switch (status) {
+            case 'error':
+                toastr.error(msg);
+                break;
+            default:
+                toastr.success(msg);
+                break;
+        }
+    }
+
+</script>
 </div>
 </body>
-</html>
+</html>`

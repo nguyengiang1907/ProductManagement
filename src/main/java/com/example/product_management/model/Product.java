@@ -123,7 +123,12 @@ public class Product {
         this.idCategory = idCategory;
     }
 
-    public Product(String name, double price, int quantity, String describes, String image, Category idCategory) {
+
+    public Product(String image) {
+        this.image = image;
+    }
+    public Product(long id, String name, double price, int quantity, String describes) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;

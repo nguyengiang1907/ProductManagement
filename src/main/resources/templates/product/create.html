@@ -5,14 +5,15 @@
     <title>Title</title>
 </head>
 <body>
+<!--<div th:insert="layout/script :: script"></div>-->
 <div class="flex h-screen bg-gray-50 dark:bg-gray-900"
      :class="{ 'overflow-hidden': isSideMenuOpen }">
     <!-- Desktop sidebar -->
-    <aside th:insert="layout/layout :: sidebarLeft">
+    <aside th:insert="layout/sidebarLeft :: sidebarLeft">
     </aside>
     <!--    =========Header========-->
     <div class="flex flex-col flex-1 w-full">
-        <header th:insert="layout/layout :: header">
+        <header th:insert="layout/header :: header"></header>
             <li class="flex">
                 <button
                         class="rounded-md focus:outline-none focus:shadow-outline-purple"
@@ -47,7 +48,7 @@
                     </template>
                 </button>
             </li>
-        </header>
+            </d>
         <div class="container px-6 mx-auto grid">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 Create
@@ -104,7 +105,9 @@
                 </form>
             </div>
         </div>
-    </div>
+</div>
 </div>
 </body>
 </html>
+
+
