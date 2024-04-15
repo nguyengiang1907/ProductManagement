@@ -3,10 +3,13 @@ package com.example.product_management.controller;
 import com.example.product_management.model.Category;
 import com.example.product_management.model.Product;
 import com.example.product_management.model.ProductForm;
-import com.example.product_management.service.ICategoryService;
-import com.example.product_management.service.IProductService;
+import com.example.product_management.model.User;
+import com.example.product_management.service.product.ICategoryService;
+import com.example.product_management.service.product.IProductService;
 import com.example.product_management.specification.PaginateRequest;
 import com.example.product_management.specification.ProductRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/products")
+@SessionAttributes("user")
 public class ProductController {
     @Autowired
     private IProductService iProductService;
@@ -31,6 +35,8 @@ public class ProductController {
     private ICategoryService iCategoryService;
     @Value("${folder_upload}")
     private String fileUpload;
+
+
 
     @ModelAttribute("category")
     public Iterable<Category> findALl(){
@@ -61,13 +67,15 @@ public class ProductController {
             return new ModelAndView("error_404");
     }
     @PostMapping("/create")
-    public ModelAndView save(@ModelAttribute ProductForm productForm) throws IOException {
+    public ModelAndView save(@ModelAttribute ProductForm productForm , HttpServletRequest request) throws IOException {
         ModelAndView modelAndView = new ModelAndView("redirect:/products");
         MultipartFile multipartFile = productForm.getImage();
         String nameFile = multipartFile.getOriginalFilename();
         Optional<Category> category = iCategoryService.findById(productForm.getIdCategory());
         FileCopyUtils.copy(productForm.getImage().getBytes(),new File(fileUpload+nameFile));
-        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescribes(), nameFile,category.get());
+        HttpSession httpSession = request.getSession();
+        User user = (User) httpSession.getAttribute("user");
+        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescribes(), nameFile,category.get(),user);
         iProductService.save(product);
         modelAndView.addObject("message","New customer created successfully");
         return modelAndView;

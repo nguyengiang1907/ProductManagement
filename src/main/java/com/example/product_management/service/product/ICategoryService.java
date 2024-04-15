@@ -1,7 +1,7 @@
-package com.example.product_management.service;
+package com.example.product_management.service.product;
 
 import com.example.product_management.model.Category;
-import org.springframework.stereotype.Repository;
+import com.example.product_management.service.IGenerateService;
 
 public interface ICategoryService extends IGenerateService<Category> {
 
