@@ -14,6 +14,14 @@ public class Product {
     private String describes;
     private String image;
 
+    public Product(String describes, long id, String image, String name, double price, int quantity) {
+        this.describes = describes;
+        this.id = id;
+        this.image = image;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
 
 
     public long getId() {
@@ -78,12 +86,5 @@ public class Product {
 
     public Product(String image) {
         this.image = image;
-      
-    public Product(long id, String name, double price, int quantity, String describes) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.describes = describes;
     }
 }
