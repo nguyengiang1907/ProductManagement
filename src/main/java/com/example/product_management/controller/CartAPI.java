@@ -1,7 +1,7 @@
 package com.example.product_management.controller;
 
 import com.example.product_management.model.Cart;
-import com.example.product_management.service.ICartService;
+import com.example.product_management.service.cart.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,9 +1,11 @@
+
 package com.example.product_management.model;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +21,9 @@ public class Product {
     private int quantity;
     private String describes;
     private String image;
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User idUser;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category idCategory;
@@ -37,6 +42,14 @@ public class Product {
     @Column(name = "updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public User getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(User idUser) {
+        this.idUser = idUser;
+    }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
@@ -113,7 +126,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(long id, String name, double price, int quantity, String describes, String image, Category idCategory) {
+    public Product(long id, String name, double price, int quantity, String describes, String image, Category idCategory, User idUser) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -121,19 +134,16 @@ public class Product {
         this.describes = describes;
         this.image = image;
         this.idCategory = idCategory;
+        this.idUser = idUser;
     }
 
-
-    public Product(String image) {
-        this.image = image;
-    }
-    public Product(long id, String name, double price, int quantity, String describes) {
-        this.id = id;
+    public Product(String name, double price, int quantity, String describes, String image, Category idCategory, User idUser) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.describes = describes;
         this.image = image;
         this.idCategory = idCategory;
+        this.idUser = idUser;
     }
 }
