@@ -1,7 +1,6 @@
-package com.example.product_management.service;
+package com.example.product_management.service.cart;
 
 import com.example.product_management.model.Cart;
-import com.example.product_management.model.Product;
 import com.example.product_management.repository.ICartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
